@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import Header from './header'
 import Product from './product'
 
-import { getProducts, addRates} from '../redux/reducers/products'
+import { getProducts, addRates } from '../redux/reducers/products'
 
 const Main = () => {
   const dispatch = useDispatch()
@@ -19,10 +19,10 @@ const Main = () => {
       <Header />
       <div>
         <div className="flex flex-wrap h-screen">
-          {goods.map((good) => {
+          {Object.entries(goods).map((good) => {
             return (
-              <div key={good.id}>
-                <Product good={good} />
+              <div key={good[0]}>
+                <Product good={good[1]} />
               </div>
             )
           })}

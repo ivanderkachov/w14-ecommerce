@@ -7,18 +7,25 @@ const SORT_GOODS = 'SORT_GOODS'
 
 
 const initialState = {
-  goods: [],
+  goods: {},
   rates: {},
-  currency: 'USD'
+  currency: 'USD',
+  sort: {
+    type: 'price',
+    direction: 'a-z'
+  }
 
 }
 
 export function getProducts() {
   return (dispatch) => {
     return axios('/api/v1/goods').then(({ data }) => {
+      const arrObj = data.reduce((acc, prod) => {
+        return {...acc, [prod.id]:prod}
+      },{})
       dispatch({
         type: GET_PRODUCTS,
-        goods: data
+        goods: arrObj
       })
     })
   }
@@ -40,12 +47,17 @@ export function updateCurrency(rate) {
   }
 }
 
-export function sortGoods(type,direction) {
+export function sortGoods(sortType,sortDirection) {
   return (dispatch) => {
-    return axios(`/api/v1/goods/${type}/${direction}`).then(({ data }) => {
+    return axios(`/api/v1/goods/${sortType}/${sortDirection}`).then(({ data }) => {
+      const arrObj = data.reduce((acc, prod) => {
+        return { ...acc, [prod.id]: prod }
+      }, {})
       dispatch({
         type: SORT_GOODS,
-        goods: data
+        goods: arrObj,
+        sortType,
+        sortDirection
       })
     })
   }
@@ -74,7 +86,11 @@ export default (state = initialState, action) => {
     case SORT_GOODS: {
       return {
         ...state,
-        goods: action.goods
+        goods: action.goods,
+        sort: {
+          type: action.sortType,
+          direction: action.sortDirection
+        }
       }
     }
     default:
