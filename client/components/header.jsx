@@ -7,6 +7,8 @@ import { updateCurrency, sortGoods } from '../redux/reducers/products'
 import { history } from '../redux'
 
 const Header = () => {
+  const dispatch = useDispatch()
+
   let click = true
   const sortDir = () => {
     if (click) {
@@ -17,7 +19,7 @@ const Header = () => {
     return 'z-a'
   }
 
-  const dispatch = useDispatch()
+
   return (
     <nav className="flex flex-col justify-center bg-blue-800 font-bold text-white h-20 w-screen fixed select-none">
       <Link to="/">

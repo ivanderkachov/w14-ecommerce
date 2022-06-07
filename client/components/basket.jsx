@@ -8,10 +8,10 @@ const Basket = () => {
   const basketGoods = useSelector((store) => store.basket.basketGoods)
 
   return (
-    <div>
+    <div className = "flex flex-col items-center h-screen">
       <Header />
-      <div className="flex items-center justify-center h-screen">
-        <div className="flex flex-wrap h-screen">
+      <div className="flex p-1">
+        <div className="flex flex-wrap space-x-1 items-center h-screen p-20">
           {Object.keys(basketGoods).map((good) => {
             return (
               <div key={good}>
