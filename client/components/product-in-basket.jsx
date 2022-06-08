@@ -10,8 +10,8 @@ const ProductInBasket = (props) => {
   const rates = useSelector((store) => store.products.rates)
   const amount = useSelector((store) => store.basket.basketGoods[goods[props.good].id])
   return (
-    <div className="product  border flex items-center space-x-4" >
-      <img src={goods[props.good].image} alt="Img" className="product__image" />
+    <div className="product  border flex items-center space-x-10" >
+      <img src={goods[props.good].image} alt="Img" className="product__image h-8 w-8" />
       <div className="product__title">{goods[props.good].title}</div>
       <div>
       <div className="product__price"> {(goods[props.good].price * rates[currency]).toFixed(2)}</div>

@@ -6,7 +6,7 @@ import { updateCurrency, sortGoods } from '../redux/reducers/products'
 
 import { history } from '../redux'
 
-const Header = () => {
+const Header = (props) => {
   const dispatch = useDispatch()
 
   let click = true
@@ -73,10 +73,11 @@ const Header = () => {
             id="order-count"
             className="border p-2"
             onClick={() => history.push('/basket')}
+            totalAmout={props.totalAmount}
           >
-            Basket
+             Basket
           </button>
-          <div> Summ </div>
+          <div>{props.totalAmount}</div>
         </div>
       </div>
     </nav>
