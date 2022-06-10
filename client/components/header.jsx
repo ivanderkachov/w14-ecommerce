@@ -1,13 +1,15 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { updateCurrency, sortGoods } from '../redux/reducers/products'
 
 import { history } from '../redux'
 
-const Header = (props) => {
+const Header = () => {
   const dispatch = useDispatch()
+  const totalAmount = useSelector((store) => store.basket.amount)
+
 
   let click = true
   const sortDir = () => {
@@ -18,7 +20,6 @@ const Header = (props) => {
     click = true
     return 'z-a'
   }
-
 
   return (
     <nav className="flex flex-col justify-center bg-blue-800 font-bold text-white h-20 w-screen fixed select-none">
@@ -74,9 +75,9 @@ const Header = (props) => {
             className="border p-2"
             onClick={() => history.push('/basket')}
           >
-             Basket
+            Basket
           </button>
-          <div>{props.totalAmount}</div>
+          <div>{totalAmount}</div>
         </div>
       </div>
     </nav>
