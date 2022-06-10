@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import Header from './header'
 import Product from './product'
 
-import { getProducts, addRates } from '../redux/reducers/products'
+import { addRates, sortGoods } from '../redux/reducers/products'
 
 const Main = () => {
 
@@ -12,6 +12,7 @@ const Main = () => {
   const products = useSelector((store) => store.products.goods)
   const currency = useSelector((store) => store.products.currency)
   const rates = useSelector((store) => store.products.rates)
+  const sortedGoods = useSelector((store) => store.products.sort)
 
   const totalAmount = Object.keys(basketGoods).map((good) => {
     let counter = 0
@@ -23,12 +24,15 @@ const Main = () => {
   }, 0).toFixed(2)
 
   const dispatch = useDispatch()
-  const goods = useSelector((store) => store.products.goods)
+
 
   useEffect(() => {
-    dispatch(getProducts())
     dispatch(addRates())
+    dispatch(sortGoods(sortedGoods.type, sortedGoods.direction))
   }, [])
+
+  const goods = useSelector((store) => store.products.goods)
+
   return (
     <div className="">
       <Header totalAmount = {globalAmount}/>

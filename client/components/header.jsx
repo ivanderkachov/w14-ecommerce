@@ -73,7 +73,6 @@ const Header = (props) => {
             id="order-count"
             className="border p-2"
             onClick={() => history.push('/basket')}
-            totalAmout={props.totalAmount}
           >
              Basket
           </button>

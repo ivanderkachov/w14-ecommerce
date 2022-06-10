@@ -12,7 +12,6 @@ const Basket = () => {
   const currency = useSelector((store) => store.products.currency)
   const rates = useSelector((store) => store.products.rates)
 
-
     const totalAmount = Object.keys(basketGoods).map((good) => {
       let counter = 0
       counter += (products[good].price * basketGoods[good] * rates[currency])
@@ -22,12 +21,17 @@ const Basket = () => {
       return acc + rec
     }, 0).toFixed(2)
 
+
+  const sortedGoods = Object.keys(products)
+  const sortedBasket = Object.keys(basketGoods).sort((a,b) => sortedGoods.indexOf(a) - sortedGoods.indexOf(b))
+
+
   return (
     <div className="flex flex-col items-center h-screen">
       <Header totalAmount = {globalAmount}/>
       <div className="flex p-1">
         <div className="flex flex-wrap space-x-1 p-20">
-          {Object.keys(basketGoods).map((good) => {
+          {sortedBasket.map((good) => {
             return (
               <div key={good}>
                 <ProductInBasket good={good} />

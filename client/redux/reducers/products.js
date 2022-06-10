@@ -54,8 +54,11 @@ export function sortGoods(sortType,sortDirection) {
         return { ...acc, [prod.id]: prod }
       }, {})
       dispatch({
+        type: GET_PRODUCTS,
+        goods: arrObj
+      })
+      dispatch({
         type: SORT_GOODS,
-        goods: arrObj,
         sortType,
         sortDirection
       })
@@ -86,7 +89,6 @@ export default (state = initialState, action) => {
     case SORT_GOODS: {
       return {
         ...state,
-        goods: action.goods,
         sort: {
           type: action.sortType,
           direction: action.sortDirection
