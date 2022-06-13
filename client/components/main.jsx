@@ -25,7 +25,7 @@ const Main = () => {
     <div className="">
       <Header />
       <div>
-        <div className="flex flex-wrap h-screen">
+        <div className="flex flex-wrap justify-between h-screen p-10">
           {Object.entries(goods).map((good) => {
             return (
               <div key={good[0]}>

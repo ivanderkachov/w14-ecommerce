@@ -22,9 +22,9 @@ const Header = () => {
   }
 
   return (
-    <nav className="flex flex-col justify-center bg-blue-800 font-bold text-white h-20 w-screen fixed select-none">
+    <nav className="flex flex-col justify-center justify-between bg-blue-800 font-bold text-white h-20 w-screen fixed select-none ">
       <Link to="/">
-        <div id="brand-name"> Shop </div>
+        <div id="brand-name" className = "border flex justify-center"> Shop </div>
       </Link>
       <div className="flex justify-between">
         <div>
@@ -75,9 +75,8 @@ const Header = () => {
             className="border p-2"
             onClick={() => history.push('/basket')}
           >
-            Basket
+            Basket {totalAmount}
           </button>
-          <div>{totalAmount}</div>
         </div>
       </div>
     </nav>
