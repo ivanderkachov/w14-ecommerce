@@ -2,14 +2,13 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { updateCurrency, sortGoods } from '../redux/reducers/products'
+import { updateCurrency, sortGoods, deleteLogs } from '../redux/reducers/products'
 
 import { history } from '../redux'
 
 const Header = () => {
   const dispatch = useDispatch()
   const totalAmount = useSelector((store) => store.basket.amount)
-
 
   let click = true
   const sortDir = () => {
@@ -24,7 +23,10 @@ const Header = () => {
   return (
     <nav className="flex flex-col justify-center justify-between bg-blue-800 font-bold text-white h-20 w-screen fixed select-none ">
       <Link to="/">
-        <div id="brand-name" className = "border flex justify-center"> Shop </div>
+        <div id="brand-name" className="border flex justify-center">
+          {' '}
+          Shop{' '}
+        </div>
       </Link>
       <div className="flex justify-between">
         <div>
@@ -76,6 +78,13 @@ const Header = () => {
             onClick={() => history.push('/basket')}
           >
             Basket {totalAmount}
+          </button>
+          <button
+           type="button"
+           id="delete-logs-button"
+           className = "border p-2"
+           onClick={() => dispatch(deleteLogs())}>
+            Delete Logs
           </button>
         </div>
       </div>

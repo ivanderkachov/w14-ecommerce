@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { LOG_CHANGE_CURRENCY, LOG_SORT_ITEMS, LOG_DELETE } from '../middleware/logs'
 
 const GET_PRODUCTS = 'GET_PRODUCTS'
 const ADD_RATES = 'ADD_RATES'
@@ -40,10 +41,28 @@ export function addRates() {
     })
   }
 }
+export function deleteLogs() {
+  return (dispatch) => {
+      dispatch({
+        type: LOG_DELETE
+      })
+    }
+  }
+  
 export function updateCurrency(rate) {
-  return {
+  return (dispatch, getState) => {
+    const lastCurrency = getState().products.currency
+    dispatch({
     type: UPDATE_CURRENCY,
     currency: rate
+    })
+    dispatch({
+      type: LOG_CHANGE_CURRENCY,
+      payload: {
+        lastCurrency,
+        newCurrency: rate
+      }
+    })
   }
 }
 
@@ -61,6 +80,11 @@ export function sortGoods(sortType,sortDirection) {
         type: SORT_GOODS,
         sortType,
         sortDirection
+      })
+      dispatch({
+        type: LOG_SORT_ITEMS,
+        payload: {
+          sortType}
       })
     })
   }

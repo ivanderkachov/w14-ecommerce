@@ -10,7 +10,7 @@ import cookieParser from 'cookie-parser'
 import config from './config'
 import Html from '../client/html'
 
-const { readFile } = require('fs').promises
+const { readFile, writeFile, unlink } = require('fs').promises
 
 require('colors')
 
@@ -38,9 +38,12 @@ const middleware = [
 middleware.forEach((it) => server.use(it))
 
 server.get('/api/v1/goods', async (req, res) => {
-  const goods = await readFile(`${__dirname}/data/skillcrcuial-ecommerce-test-data/data.json`, {
-    encoding: 'utf8'
-  }).then((text) => JSON.parse(text))
+  const goods = await readFile(
+    `${__dirname}/data/skillcrcuial-ecommerce-test-data/skillcrcuial-ecommerce-test-data/data.json`,
+    {
+      encoding: 'utf8'
+    }
+  ).then((text) => JSON.parse(text))
   res.json(goods)
 })
 
@@ -48,7 +51,12 @@ server.get('/api/v1/rates', async (req, res) => {
   const rates = await axios(
     'https://api.exchangerate.host/latest?base=USD&symbols=USD,EUR,CAD'
   ).then(({ data }) => {
+    writeFile(`${__dirname}/data/skillcrcuial-ecommerce-test-data/rates.json`, JSON.stringify(data.rates), 'utf8')
     return data.rates
+  })
+  .catch(async () => {
+    const lastRates = readFile(`${__dirname}/data/skillcrcuial-ecommerce-test-data/rates.json`, 'utf8')
+    return lastRates
   })
   res.json(rates)
 })
@@ -56,9 +64,12 @@ server.get('/api/v1/rates', async (req, res) => {
 server.get('/api/v1/goods/:type/:direction', async (req, res) => {
   const { type } = req.params
   const { direction } = req.params
-  const goods = await readFile(`${__dirname}/data/skillcrcuial-ecommerce-test-data/data.json`, {
-    encoding: 'utf8'
-  }).then((text) => JSON.parse(text))
+  const goods = await readFile(
+    `${__dirname}/data/skillcrcuial-ecommerce-test-data/skillcrcuial-ecommerce-test-data/data.json`,
+    {
+      encoding: 'utf8'
+    }
+  ).then((text) => JSON.parse(text))
   const sorted = goods.sort((a, b) => {
     if (type === 'price' && direction === 'a-z') {
       return a.price - b.price
@@ -75,6 +86,26 @@ server.get('/api/v1/goods/:type/:direction', async (req, res) => {
     return a.price - b.price
   })
   res.json(sorted)
+})
+
+server.post('/api/v1/logs', async(req, res) => {
+  const logStr = req.body.body.text
+  console.log(logStr)
+  await readFile(`${__dirname}/data/skillcrcuial-ecommerce-test-data/logs.json`, 'utf8')
+  .then((arrOfLogs) => {
+    const logs = JSON.parse(arrOfLogs)
+    writeFile(`${__dirname}/data/skillcrcuial-ecommerce-test-data/logs.json`, JSON.stringify([...logs, logStr]), 'utf8')
+  })
+  .catch(() => {
+    writeFile(`${__dirname}/data/skillcrcuial-ecommerce-test-data/logs.json`, JSON.stringify([logStr]), 'utf8')
+  })
+  res.json({ status : 'LOG UPDATED'})
+})
+
+server.delete('/api/v1/deletelogs', (req, res) => {
+  console.log('LOGS')
+  unlink(`${__dirname}/data/skillcrcuial-ecommerce-test-data/logs.json`)
+  res.json({ status: 'LOGS ARE DELETED' })
 })
 
 server.use('/api/', (req, res) => {

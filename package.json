@@ -155,7 +155,9 @@
     },
     "nodemonConfig": {
         "ignore": [
-            "*.hot-update.json"
+            "*.hot-update.json",
+            "./server/data/skillcrcuial-ecommerce-test-data/logs.json",
+            "./server/data/skillcrcuial-ecommerce-test-data/rates.json"
         ]
     }
 }
