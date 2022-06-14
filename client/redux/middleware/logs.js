@@ -5,85 +5,51 @@ export const LOG_ADD_ITEM_TO_BASKET = 'LOG_ADD_ITEM_TO_BASKET'
 export const LOG_REMOVE_ITEM_FROM_BASKET = 'LOG_REMOVE_ITEM_FROM_BASKET'
 export const LOG_SORT_ITEMS = 'LOG_SORT_ITEMS'
 export const LOG_DELETE = 'LOG_DELETE'
+export const LOG_LOCATION_CHANGE = '@@router/LOCATION_CHANGE'
 
+function toServer(text1) {
+  const textWithDate = `${text1}_${new Date()}`
+  axios
+    .post('/api/v1/logs', {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json'
+      },
+      body: {
+        text: textWithDate
+      }
+    })
+    .then((data) => {
+      console.log(JSON.stringify(data))
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+}
 
 const logs = () => {
   return () => (next) => (action) => {
     switch (action.type) {
       case LOG_CHANGE_CURRENCY: {
-        axios
-          .post('/api/v1/logs', {
-            method: 'POST',
-            headers: {
-              'Content-type': 'application/json'
-            },
-            body: {
-              text: `change currency from ${action.payload.lastCurrency} to ${action.payload.newCurrency}`
-            }
-          })
-          .then((data) => {
-            console.log(JSON.stringify(data))
-          })
-          .catch((err) => {
-            console.log(err)
-          })
+        toServer(
+          `change currency from ${action.payload.lastCurrency} to ${action.payload.newCurrency} ${JSON.stringify(new Date())}`
+        )
         break
       }
       case LOG_ADD_ITEM_TO_BASKET: {
-        axios
-          .post('/api/v1/logs', {
-            method: 'POST',
-            headers: {
-              'Content-type': 'application/json'
-            },
-            body: {
-              text: `Add ${action.payload.itemInBasket} to Basket`
-            }
-          })
-          .then((data) => {
-            console.log(JSON.stringify(data))
-          })
-          .catch((err) => {
-            console.log(err)
-          })
+        toServer(`Add ${action.payload.itemInBasket} to Basket`)
         break
       }
       case LOG_REMOVE_ITEM_FROM_BASKET: {
-        axios
-          .post('/api/v1/logs', {
-            method: 'POST',
-            headers: {
-              'Content-type': 'application/json'
-            },
-            body: {
-              text: `Remove ${action.payload.itemInBasket} from Basket`
-            }
-          })
-          .then((data) => {
-            console.log(JSON.stringify(data))
-          })
-          .catch((err) => {
-            console.log(err)
-          })
+        toServer(`Remove ${action.payload.itemInBasket} from Basket`)
         break
       }
       case LOG_SORT_ITEMS: {
-        axios
-          .post('/api/v1/logs', {
-            method: 'POST',
-            headers: {
-              'Content-type': 'application/json'
-            },
-            body: {
-              text: `Sort items by ${action.payload.sortType}`
-            }
-          })
-          .then((data) => {
-            console.log(JSON.stringify(data))
-          })
-          .catch((err) => {
-            console.log(err)
-          })
+        toServer(`Sort items by ${action.payload.sortType}`)
+        break
+      }
+      case LOG_LOCATION_CHANGE: {
+        toServer(`navigate to ${action.payload.location.pathname} page`)
         break
       }
       case LOG_DELETE: {
