@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { updateCurrency, sortGoods, deleteLogs, viewLogs } from '../redux/reducers/products'
+import { updateCurrency, sortGoods, deleteLogs } from '../redux/reducers/products'
 
 import { history } from '../redux'
 
@@ -83,7 +83,6 @@ const Header = () => {
             id="view-logs-button"
             className="border p-2"
             onClick={() => {
-              dispatch(viewLogs())
               history.push('/logs')}}
           >
             View Logs
