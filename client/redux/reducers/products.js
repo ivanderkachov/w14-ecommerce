@@ -5,6 +5,7 @@ const GET_PRODUCTS = 'GET_PRODUCTS'
 const ADD_RATES = 'ADD_RATES'
 const UPDATE_CURRENCY = 'UPDATE_CURRENCY'
 const SORT_GOODS = 'SORT_GOODS'
+const VIEW_LOGS = '`VIEW_LOGS'
 
 
 const initialState = {
@@ -14,7 +15,8 @@ const initialState = {
   sort: {
     type: 'price',
     direction: 'a-z'
-  }
+  },
+  logs: []
 
 }
 
@@ -44,11 +46,26 @@ export function addRates() {
 export function deleteLogs() {
   return (dispatch) => {
       dispatch({
-        type: LOG_DELETE
+        type: LOG_DELETE,
+        logs: []
       })
     }
   }
-  
+
+export function viewLogs() {
+  return (dispatch) => {
+    return axios('/api/v1/viewlogs').then(({ data }) => {
+      const arrObj = data.reduce((acc, logs) => {
+        return [ ...acc, logs ]
+      }, [])
+      dispatch({
+        type: VIEW_LOGS,
+        logs: arrObj
+      })
+    })
+  }
+}
+
 export function updateCurrency(rate) {
   return (dispatch, getState) => {
     const lastCurrency = getState().products.currency
@@ -117,6 +134,18 @@ export default (state = initialState, action) => {
           type: action.sortType,
           direction: action.sortDirection
         }
+      }
+    }
+    case VIEW_LOGS: {
+      return {
+        ...state,
+        logs: action.logs
+      }
+    }
+    case LOG_DELETE: {
+      return {
+        ...state,
+        logs: action.logs
       }
     }
     default:

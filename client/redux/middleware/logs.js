@@ -8,7 +8,7 @@ export const LOG_DELETE = 'LOG_DELETE'
 export const LOG_LOCATION_CHANGE = '@@router/LOCATION_CHANGE'
 
 function toServer(text1) {
-  const textWithDate = `${text1}_${new Date()}`
+  const textWithDate = `${text1}_${new Date().toISOString()}`
   axios
     .post('/api/v1/logs', {
       method: 'POST',
@@ -32,7 +32,7 @@ const logs = () => {
     switch (action.type) {
       case LOG_CHANGE_CURRENCY: {
         toServer(
-          `change currency from ${action.payload.lastCurrency} to ${action.payload.newCurrency} ${JSON.stringify(new Date())}`
+          `change currency from ${action.payload.lastCurrency} to ${action.payload.newCurrency}`
         )
         break
       }

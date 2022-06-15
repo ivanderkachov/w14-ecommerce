@@ -102,6 +102,16 @@ server.post('/api/v1/logs', async(req, res) => {
   res.json({ status : 'LOG UPDATED'})
 })
 
+server.get('/api/v1/viewlogs', async (req, res) => {
+  const logs = await readFile(
+    `${__dirname}/data/skillcrcuial-ecommerce-test-data/logs.json`,
+    {
+      encoding: 'utf8'
+    }
+  ).then((text) => JSON.parse(text))
+  res.json(logs)
+})
+
 server.delete('/api/v1/deletelogs', (req, res) => {
   console.log('LOGS')
   unlink(`${__dirname}/data/skillcrcuial-ecommerce-test-data/logs.json`)

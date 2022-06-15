@@ -24,8 +24,7 @@ const Header = () => {
     <nav className="flex flex-col justify-center justify-between bg-blue-800 font-bold text-white h-20 w-screen fixed select-none ">
       <Link to="/">
         <div id="brand-name" className="border flex justify-center">
-          {' '}
-          Shop{' '}
+          Shop
         </div>
       </Link>
       <div className="flex justify-between">
@@ -80,10 +79,19 @@ const Header = () => {
             Basket {totalAmount}
           </button>
           <button
-           type="button"
-           id="delete-logs-button"
-           className = "border p-2"
-           onClick={() => dispatch(deleteLogs())}>
+            type="button"
+            id="view-logs-button"
+            className="border p-2"
+            onClick={() => history.push('/logs')}
+          >
+            View Logs
+          </button>
+          <button
+            type="button"
+            id="delete-logs-button"
+            className="border p-2"
+            onClick={() => dispatch(deleteLogs())}
+          >
             Delete Logs
           </button>
         </div>
